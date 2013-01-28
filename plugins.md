@@ -25,8 +25,10 @@ JS
     /*global module, require*/
     module.exports = {
         'js' : _"JavaScript",
-        'md' : _"Markdown"
+        'md' : _"Markdown",
+        'html' : _"HTML"
     };
+
 
 
 ## JavaScript
@@ -38,6 +40,11 @@ JS
     function (doc) {
         var beautify = require('js-beautify').js_beautify;
         var jshint = require('jshint').JSHINT;
+
+        doc.addTypes({
+            js: "text/javascript", 
+            json: "application/json" 
+        });
 
         doc.addCommands({
             jstidy : _"jstidy",
@@ -133,7 +140,9 @@ JS
     function (doc) {
         var marked = require('marked');
 
-        doc.addTypes( {} );
+        doc.addTypes({
+            md: "text/x-markdown"
+        });
 
         doc.addCommands( {
                 marked : _"Marked"
@@ -187,6 +196,100 @@ It escapes out _"stuff" so that substitutions survive the transformation and can
 Needs marked installed: `npm install marked`   
 
 
+## HTML 
+
+    function (doc) {
+
+        doc.addTypes({            
+            html: "text/html"
+        });
+
+
+        doc.addCommands( {
+            "escape" : _"html escape",
+            "unescape" : _"html unescape",
+            "wrap" : _"wrap"
+        });
+
+        doc.addMacros( {
+            "jquery" : _"jQuery"
+        });
+
+    }
+
+
+### jQuery
+
+A macro that takes in a version number and outputs the google CDN link. 
+
+    function (v) {
+        return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' + 
+        (v || '1.9.0') + '/jquery.min.js"></script>';
+    }
+
+
+### HTML Escape 
+
+Escape the given code to be safe in html, e.g., javascript into an html pre element. 
+
+Replace `<>&` with their equivalents. 
+
+
+    function (code) {
+        code = code.replace(/</g, "&lt;");
+        code = code.replace(/>/g, "&gt;");
+        code = code.replace(/\&/g, "&amp;");
+        return code;
+    }
+
+### HTML Unescape 
+
+And to undo the escapes: 
+
+    function (code) {
+        code = code.replace(/\&lt\;/g, "<");
+        code = code.replace(/\&gt\;/g, ">");
+        code = code.replace(/\&amp\;/g, "&");
+        return code;
+    }
+
+
+
+### Wrap
+
+Encapsulate the code into an html element.
+
+    function (code, options) {
+
+        var element = options.shift();
+
+        _"|Create attribute list"
+
+        return "<" + element + " " + attributes + ">"+code+"</"+element+ ">";
+
+
+    }  
+
+
+JS Create attribute list
+
+We want to create an attribute list for html elements. The convention is that everything that does not have an equals sign is a class name. So we will string them together and throw them into the class, making sure each is a single word. The others we throw in as is. 
+
+    var i, option, attributes = [], klass = [];
+
+    for (i = 0; i < options.length; i += 1) {
+        option = options[i];
+        if ( option.indexOf("=") !== -1 ) {
+            attributes.push(option);
+        } else { // class
+            klass.push(option.trim());
+        }
+    }
+    if (klass.length > 0 ) {
+       attributes.push("class='"+klass.join(" ")+"'");
+    }
+    attributes = attributes.join(" ");
+
 ## README
 
  # Literate Programming's Standard Library
@@ -205,9 +308,9 @@ The requisite npm package file.
 JSON 
 
     {
-      "name": "VNAME",
+      "name": "DOCNAME",
       "description": "Standard plugin for literate programming.",
-      "version": "VERSION",
+      "version": "DOCVERSION",
       "homepage": "https://github.com/jostylr/literate-programming-standard",
       "author": {
         "name": "James Taylor",

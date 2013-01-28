@@ -4,6 +4,11 @@ module.exports = {
     var beautify = require('js-beautify').js_beautify;
     var jshint = require('jshint').JSHINT;
 
+    doc.addTypes({
+      js: "text/javascript",
+      json: "application/json"
+    });
+
     doc.addCommands({
       jstidy: function (code, options) {
         options = options.join(",").trim();
@@ -87,7 +92,9 @@ module.exports = {
   'md': function (doc) {
     var marked = require('marked');
 
-    doc.addTypes({});
+    doc.addTypes({
+      md: "text/x-markdown"
+    });
 
     doc.addCommands({
       marked: function (code) {
@@ -122,5 +129,56 @@ module.exports = {
 
       }
     });
+  },
+  'html': function (doc) {
+
+    doc.addTypes({
+      html: "text/html"
+    });
+
+    doc.addCommands({
+      "escape": function (code) {
+        code = code.replace(/</g, "&lt;");
+        code = code.replace(/>/g, "&gt;");
+        code = code.replace(/\&/g, "&amp;");
+        return code;
+      },
+      "unescape": function (code) {
+        code = code.replace(/\&lt\;/g, "<");
+        code = code.replace(/\&gt\;/g, ">");
+        code = code.replace(/\&amp\;/g, "&");
+        return code;
+      },
+      "wrap": function (code, options) {
+
+        var element = options.shift();
+
+        var i, option, attributes = [],
+          klass = [];
+
+        for (i = 0; i < options.length; i += 1) {
+          option = options[i];
+          if (option.indexOf("=") !== -1) {
+            attributes.push(option);
+          } else { // class
+            klass.push(option.trim());
+          }
+        }
+        if (klass.length > 0) {
+          attributes.push("class='" + klass.join(" ") + "'");
+        }
+        attributes = attributes.join(" ");
+
+        return "<" + element + " " + attributes + ">" + code + "</" + element + ">";
+
+      }
+    });
+
+    doc.addMacros({
+      "jquery": function (v) {
+        return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' + (v || '1.9.0') + '/jquery.min.js"></script>';
+      }
+    });
+
   }
 };
