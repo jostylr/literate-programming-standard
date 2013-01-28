@@ -300,7 +300,6 @@ It is a node module that contains standard functionality for dealing with common
 
 It currently has features for javascript files and markdown files. Planned will be css, html, maybe some prepocessors, perhaps r and python. 
 
-
 ## NPM Package
 
 The requisite npm package file. 
