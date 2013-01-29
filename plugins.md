@@ -10,11 +10,11 @@ VERSION literate-programming-standard | 0.1.0
 
 Main entry point.
 
-FILE index.js | basic setup || jshint |jstidy
+FILE index.js | basic setup | jshint |jstidy
 
-FILE README.md | readme || clean raw
+FILE README.md | readme | clean raw
 
-FILE package.json | npm package || jshint |jstidy
+FILE package.json | npm package | jshint |jstidy
 
 
 ## Basic setup
@@ -86,7 +86,7 @@ JS main
         jshint(code);
         var data = jshint.data();
 
-        _"|jshint logging"
+        _":jshint logging"
 
 
         if (log.length > 0 ) {
@@ -263,7 +263,7 @@ Encapsulate the code into an html element.
 
         var element = options.shift();
 
-        _"|Create attribute list"
+        _":Create attribute list"
 
         return "<" + element + " " + attributes + ">"+code+"</"+element+ ">";
 
