@@ -169,12 +169,12 @@ It escapes out _"stuff" so that substitutions survive the transformation and can
 
         var masklit = function (match) {
             lpsnip.push(match);
-            return "LITPROSNIP"+(lpsnip.length -1);
+            return "<!--LITPROSNIP"+(lpsnip.length -1)+"-->";
         };
 
         var maskmath = function (match) {
             mathsnip.push(match);
-            return "MATHSNIP"+(mathsnip.length-1);
+            return "<!--MATHSNIP"+(mathsnip.length-1)+"-->";
         };
 
         var unmasklit = function (match, number) {
@@ -188,8 +188,8 @@ It escapes out _"stuff" so that substitutions survive the transformation and can
         code = code.replace(/\_+(\"[^"]+\"|\`[^`]+\`)/g, masklit); 
         code = code.replace(/\$\$[^$]+\$\$|\$[^$\n]+\$|\\\(((?:[^\\]|\\(?!\)))+)\\\)|\\\[((?:[^\\]|\\(?!\]))+)\\\]/g, maskmath);
         code = marked(code);
-        code = code.replace(/LITPROSNIP(\d+)/g, unmasklit);
-        code = code.replace(/MATHSNIP(\d+)/g, unmaskmath);
+        code = code.replace(/<\!\-\-LITPROSNIP(\d+)\-\->/g, unmasklit);
+        code = code.replace(/<\!\-\-MATHSNIP(\d+)\-\->/g, unmaskmath);
         return code;
 
     }
@@ -305,7 +305,6 @@ It currently has features for javascript files and markdown files. Planned will 
 
  #TODO
 
-Rethink marked substistutions. Whole block substitutions get surrounded by paragraph elements. Maybe put them in html comment? 
 
 Add in jsmin
 
