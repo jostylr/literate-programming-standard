@@ -171,7 +171,75 @@ module.exports = {
 
         return "<" + element + " " + attributes + ">" + code + "</" + element + ">";
 
+      },
+      "htmltable": function (code, options) {
+        var type = options.shift();
+
+        var matrix = this.state.obj || [
+          []
+        ];
+
+        var i, option, attributes = [],
+          klass = [];
+
+        for (i = 0; i < options.length; i += 1) {
+          option = options[i];
+          if (option.indexOf("=") !== -1) {
+            attributes.push(option);
+          } else { // class
+            klass.push(option.trim());
+          }
+        }
+        if (klass.length > 0) {
+          attributes.push("class='" + klass.join(" ") + "'");
+        }
+        attributes = attributes.join(" ");
+
+        var ret = "<table " + attributes + ">";
+
+        var n = matrix.length,
+          row;
+
+        if (type === "rowswheader") {
+          row = matrix[0];
+          ret += "<tr><th>" + row.join("</th><th>") + "</th></tr>";
+
+          for (i = 1; i < n; i += 1) {
+            row = matrix[i];
+            ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
+          }
+        } else { //if (type === "rows" ) {
+          for (i = 0; i < n; i += 1) {
+            row = matrix[i];
+            ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
+          }
+        }
+        ret += "</table>";
+        return ret;
       }
+    });
+
+    doc.addConstants({
+      "mathjax": ["<script type=\"text/x-mathjax-config\">",
+        "MathJax.Hub.Config({",
+        "    extensions: [\"tex2jax.js\"],",
+        "    jax: [\"input/TeX\", \"output/HTML-CSS\"],",
+        "    tex2jax: {",
+        "      inlineMath: [ ['$','$'], [\"\\\\(\",\"\\\\)\"] ],",
+        "      displayMath: [ ['$$','$$'], [\"\\\\[\",\"\\\\]\"] ],",
+        "      processEscapes: true",
+        "    },",
+        "    \"HTML-CSS\": { availableFonts: [\"TeX\"] }, ",
+        "    TeX: {",
+        "    Macros: {",
+        "      R: '{\\\\mathbb{R}}',",
+        "      C: '{\\\\mathbb{C}}'    }",
+        "    }",
+        "});",
+        "</script>",
+        "<script type=\"text/javascript\"",
+        "  src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">",
+        "</script>"].join("\n")
     });
 
     doc.addMacros({

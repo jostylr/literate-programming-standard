@@ -209,7 +209,12 @@ Needs marked installed: `npm install marked`
         doc.addCommands( {
             "escape" : _"html escape",
             "unescape" : _"html unescape",
-            "wrap" : _"wrap"
+            "wrap" : _"wrap",
+            "htmltable" : _"html table"
+        });
+
+        doc.addConstants( {
+            "mathjax" : _"MathJax:main.html | stringify"
         });
 
         doc.addMacros( {
@@ -227,6 +232,43 @@ A macro that takes in a version number and outputs the google CDN link.
         return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' + 
         (v || '1.9.0') + '/jquery.min.js"></script>';
     }
+
+
+
+### MathJax
+
+We the CDN link for [MathJax](http://www.mathjax.org/).
+    
+HTML main 
+
+    <script type="text/x-mathjax-config">
+    _":MJ config"
+    </script>
+    <script type="text/javascript"
+      src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+JS MJ config | jshint 
+    
+    MathJax.Hub.Config({
+        extensions: ["tex2jax.js"],
+        jax: ["input/TeX", "output/HTML-CSS"],
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+          processEscapes: true
+        },
+        "HTML-CSS": { availableFonts: ["TeX"] }, 
+        TeX: {
+        Macros: {
+          R: '{\\mathbb{R}}',
+          C: '{\\mathbb{C}}'    }
+        }
+    });
+
+
+
+
 
 
 ### HTML Escape 
@@ -290,6 +332,56 @@ We want to create an attribute list for html elements. The convention is that ev
        attributes.push("class='"+klass.join(" ")+"'");
     }
     attributes = attributes.join(" ");
+
+
+### HTML Table
+
+This expects an object in this.state.obj to be a data structure that htmltable can make a table from. The first argument is the type of object. The rest are attributes, etc. for the table element
+
+JS 
+
+    function (code, options) {
+        var type = options.shift();
+
+        var matrix = this.state.obj || [[]]; 
+
+        _"wrap:create attribute list"
+
+        var ret = "<table " + attributes + ">";
+
+        var n = matrix.length, row;
+
+        if (type === "rowswheader") {
+            _":rows with header" 
+        } else { //if (type === "rows" ) {
+            _":body rows"
+        }
+        ret += "</table>";
+        return ret; 
+    }
+
+JS rows with header
+
+    row = matrix[0]; 
+    _":make row | substitute(td, th)"
+
+    for (i = 1; i < n; i += 1) {
+        row = matrix[i];
+        _":make row"
+    }
+
+JS body rows
+
+    for (i = 0; i < n; i += 1) {
+        row = matrix[i];
+        _":make row"
+    }
+
+JS make row
+
+    ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
+
+
 
 ## README
 
