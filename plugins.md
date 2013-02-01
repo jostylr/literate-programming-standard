@@ -27,7 +27,8 @@ JS
     module.exports = {
         'js' : _"JavaScript",
         'md' : _"Markdown",
-        'html' : _"HTML"
+        'html' : _"HTML",
+        'css' : _"CSS"
     };
 
 
@@ -381,6 +382,24 @@ JS make row
 
     ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
 
+
+## CSS
+
+    function (doc) {
+
+        doc.addMacros({
+            "bootswatch" : _"Bootswatch"
+        });
+
+    }
+
+### Bootswatch
+
+Every time I go to code up my own CSS, I stare at it blankly and run to [Bootswatch](http://bootswatch.com). 
+
+    function (bs) {
+        return '<link rel="stylesheet" href="http://bootswatch.com/'+(bs || 'journal') + '/bootstrap.min.css">';
+    }
 
 
 ## README

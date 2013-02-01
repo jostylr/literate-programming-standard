@@ -248,5 +248,14 @@ module.exports = {
       }
     });
 
+  },
+  'css': function (doc) {
+
+    doc.addMacros({
+      "bootswatch": function (bs) {
+        return '<link rel="stylesheet" href="http://bootswatch.com/' + (bs || 'journal') + '/bootstrap.min.css">';
+      }
+    });
+
   }
 };
