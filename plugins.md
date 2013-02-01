@@ -4,7 +4,7 @@ This is a standard library for literate programming. Originally it was part of l
 
 This has the nice effect of forcing a standardized API for plugins and having an example for others to see. 
 
-VERSION literate-programming-standard | 0.1.0
+VERSION literate-programming-standard | 0.1.1
 
 ## Directory structure
 
