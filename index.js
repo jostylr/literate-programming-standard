@@ -20,8 +20,11 @@ module.exports = {
             "jslint_happy": true
           };
         }
+        console.log("tidying");
         return beautify(code, options);
-      },
+      }
+
+      ,
       jshint: function (code) {
         var doc = this.doc;
         var block = {}; //currently not stored anywhere
@@ -79,10 +82,11 @@ module.exports = {
           }
         }
 
+
         if (log.length > 0) {
-          doc.log("!! JSHint:" + this.block.name + "\n" + log.join("\n"));
+          doc.log("!! JSHint:" + this.fullname + "\n" + log.join("\n"));
         } else {
-          doc.log("JSHint CLEAN: " + this.block.name);
+          doc.log("JSHint CLEAN: " + this.fullname);
         }
 
         return code;
@@ -125,9 +129,11 @@ module.exports = {
         code = marked(code);
         code = code.replace(/<\!\-\-LITPROSNIP(\d+)\-\->/g, unmasklit);
         code = code.replace(/<\!\-\-MATHSNIP(\d+)\-\->/g, unmaskmath);
+
         return code;
 
       }
+
     });
   },
   'html': function (doc) {
@@ -169,6 +175,7 @@ module.exports = {
         }
         attributes = attributes.join(" ");
 
+
         return "<" + element + " " + attributes + ">" + code + "</" + element + ">";
 
       },
@@ -195,6 +202,7 @@ module.exports = {
         }
         attributes = attributes.join(" ");
 
+
         var ret = "<table " + attributes + ">";
 
         var n = matrix.length,
@@ -204,14 +212,17 @@ module.exports = {
           row = matrix[0];
           ret += "<tr><th>" + row.join("</th><th>") + "</th></tr>";
 
+
           for (i = 1; i < n; i += 1) {
             row = matrix[i];
             ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
+
           }
         } else { //if (type === "rows" ) {
           for (i = 0; i < n; i += 1) {
             row = matrix[i];
             ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
+
           }
         }
         ret += "</table>";
@@ -221,6 +232,7 @@ module.exports = {
 
     doc.addConstants({
       "mathjax": ["<script type=\"text/x-mathjax-config\">",
+        "",
         "MathJax.Hub.Config({",
         "    extensions: [\"tex2jax.js\"],",
         "    jax: [\"input/TeX\", \"output/HTML-CSS\"],",
@@ -236,6 +248,7 @@ module.exports = {
         "      C: '{\\\\mathbb{C}}'    }",
         "    }",
         "});",
+        "",
         "</script>",
         "<script type=\"text/javascript\"",
         "  src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">",
@@ -246,6 +259,7 @@ module.exports = {
       "jquery": function (v) {
         return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' + (v || '1.9.0') + '/jquery.min.js"></script>';
       }
+
     });
 
   },
@@ -255,6 +269,7 @@ module.exports = {
       "bootswatch": function (bs) {
         return '<link rel="stylesheet" href="http://bootswatch.com/' + (bs || 'journal') + '/bootstrap.min.css">';
       }
+
     });
 
   }

@@ -4,19 +4,19 @@ This is a standard library for literate programming. Originally it was part of l
 
 This has the nice effect of forcing a standardized API for plugins and having an example for others to see. 
 
-VERSION literate-programming-standard | 0.1.1
+VERSION literate-programming-standard | 0.2
 
 ## Directory structure
 
 Main entry point.
 
-FILE index.js | basic setup | jshint |jstidy
+FILE "basic setup" index.js  | jshint |jstidy
 
-FILE README.md | readme | clean raw
+FILE "readme" README.md  | clean raw
 
-FILE package.json | npm package | jshint |jstidy
+FILE "npm package" package.json | jshint |jstidy
 
-FILE TODO.md | todo | clean raw
+FILE "todo" TODO.md | clean raw
 
 ## Basic setup
 
@@ -68,6 +68,7 @@ JS
         } else {
             options = { indent_size: 2, "jslint_happy": true };
         }
+        console.log("tidying");
         return beautify(code, options);
     }
    
@@ -92,9 +93,9 @@ JS main
 
 
         if (log.length > 0 ) {
-         doc.log ("!! JSHint:" + this.block.name+"\n"+log.join("\n"));
+         doc.log ("!! JSHint:" + this.fullname+"\n"+log.join("\n"));
         } else {
-         doc.log("JSHint CLEAN: " + this.block.name);
+         doc.log("JSHint CLEAN: " + this.fullname);
         }
 
         return code;
@@ -165,7 +166,6 @@ It escapes out _"stuff" so that substitutions survive the transformation and can
     
     function (code) {
 
-
         var lpsnip = [], mathsnip = [];
 
         var masklit = function (match) {
@@ -191,6 +191,7 @@ It escapes out _"stuff" so that substitutions survive the transformation and can
         code = marked(code);
         code = code.replace(/<\!\-\-LITPROSNIP(\d+)\-\->/g, unmasklit);
         code = code.replace(/<\!\-\-MATHSNIP(\d+)\-\->/g, unmaskmath);
+
         return code;
 
     }
