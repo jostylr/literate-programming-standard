@@ -84,9 +84,9 @@ module.exports = {
 
 
         if (log.length > 0) {
-          doc.log("!! JSHint:" + this.fullname + "\n" + log.join("\n"));
+          doc.log("!! JSHint:" + this.name + "\n" + log.join("\n"));
         } else {
-          doc.log("JSHint CLEAN: " + this.fullname);
+          doc.log("JSHint CLEAN: " + this.name);
         }
 
         return code;
