@@ -68,10 +68,9 @@ JS
         } else {
             options = { indent_size: 2, "jslint_happy": true };
         }
-        console.log("tidying");
         return beautify(code, options);
     }
-   
+
 Needs js-beautify installed: `npm install js-beautify`
 
 ### JSHint
