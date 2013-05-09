@@ -50,7 +50,8 @@ JS
 
         doc.addCommands({
             jstidy : _"jstidy",
-            jshint : _"jshint"
+            jshint : _"jshint",
+            ife : _"immediate function execution"
         });
     }
 
@@ -133,6 +134,37 @@ JS jshint logging
          }            
         }
 
+
+### Immediate Function Execution
+
+When writing this snippets of code everywhere, a problem arises as to where to place the scope of the variables. How do we avoid temporary variables from polluting the full scope? And how do we effectively write tests for such snippets? 
+
+The solution is the immediate function expressions. If we enclose a snippet in  `function () {} ()` then we get a nice enclosed scope.  If we also want to add in some parameters from the surrounding (say read-only parameters or something to be evaluated into a closure for later use), then we can do that as well.  
+
+The syntax will be  `ife` for the no parameter version and  `ife(v, w=hidethis)` to have parameters such as `!function(v,w) {} (v, hidethis)`  That is, the `=` is used to rename an outer parameter into a different variable name while just a single variable name is assumed to have the outer variable blocked. 
+
+Once we have this notion of wrapping defined, we can also do jshint on it and do tests. Perhaps if there is a code block of TEST with the following JS structure: [[msg, {outer scope before}, {outer scope after}, return value ]...]  The idea is that we set the tests up as an array of arrays where each of those arrays consists of a description, an initialization, and the final state plus return value. 
+
+!!! This could also mutate to allow for just a function enclosing so that when writing callbacks, one could manage the function off scene and just have the relevant code. 
+
+JS
+
+        function (code, args) {
+            var i, n = args.length;
+
+            if (n === 0 ) {
+                f
+            }
+            for (i=0; i <n; i +=1 ) {
+
+            }
+
+            return code;
+    }
+
+
+
+
 ## Markdown
 
 We have here the tools needed to transform markdown documents into something else. 
@@ -151,10 +183,6 @@ JS
         });
     }
 
-
-### Literate Program
-
-By a bit of craziness, this function will take a literate program markdown section and parse it. It returns a compiled document that could then be passed on. 
 
 ### Marked
 
@@ -418,6 +446,7 @@ It currently has features for javascript files and markdown files. Planned will 
 
 
 Add in jsmin
+Add in immediate function expression, function wrapping
 
 
 ## NPM Package
