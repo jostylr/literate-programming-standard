@@ -86,6 +86,37 @@ module.exports = {
         }
 
         return code;
+      },
+      ife: function (code, args) {
+        var i, n = args.length;
+
+        var internal = [];
+        var external = [];
+        var arg, ret;
+
+        for (i = 0; i < n; i += 1) {
+          arg = args[i] || "";
+          arg = arg.split("=").trim();
+          if (arg === "return") {
+            ret = arg[1] || "";
+          } else if (arg.length === 1) {
+            internal = arg[0];
+            external = arg[0];
+          } else if (arg.length === 2) {
+            internal = arg[0];
+            external = arg[1];
+          }
+
+        }
+
+        var start = "(function ( " + internal.join(", ") + " ) {";
+        var end = "\n} ( " + external.join(",") + " ) )";
+
+        if (typeof ret === "string") {
+          return start + code + "\n return " + ret + ";" + end;
+        } else {
+          return start + "\n return " + code + end;
+        }
       }
     });
   },

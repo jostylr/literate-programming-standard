@@ -141,28 +141,48 @@ When writing this snippets of code everywhere, a problem arises as to where to p
 
 The solution is the immediate function expressions. If we enclose a snippet in  `function () {} ()` then we get a nice enclosed scope.  If we also want to add in some parameters from the surrounding (say read-only parameters or something to be evaluated into a closure for later use), then we can do that as well.  
 
-The syntax will be  `ife` for the no parameter version and  `ife(v, w=hidethis)` to have parameters such as `!function(v,w) {} (v, hidethis)`  That is, the `=` is used to rename an outer parameter into a different variable name while just a single variable name is assumed to have the outer variable blocked. 
+The syntax will be  `ife` for the no parameter version and  `ife(v, w=hidethis)` to have parameters such as `function(v,w) {} (v, hidethis)`  That is, the `=` is used to rename an outer parameter into a different variable name while just a single variable name is assumed to have the outer variable blocked. 
 
-Once we have this notion of wrapping defined, we can also do jshint on it and do tests. Perhaps if there is a code block of TEST with the following JS structure: [[msg, {outer scope before}, {outer scope after}, return value ]...]  The idea is that we set the tests up as an array of arrays where each of those arrays consists of a description, an initialization, and the final state plus return value. 
-
-!!! This could also mutate to allow for just a function enclosing so that when writing callbacks, one could manage the function off scene and just have the relevant code. 
+This will be designed so that the default will be enclosed code is a function. To change this, include `return = text` where text is what one would write after the return: `return text`
 
 JS
 
-        function (code, args) {
-            var i, n = args.length;
+    function (code, args) {
+        var i, n = args.length;
 
-            if (n === 0 ) {
-                f
+        var internal = [];
+        var external = [];
+        var arg,ret; 
+
+        for (i=0; i <n; i +=1 ) {
+            arg = args[i] || "";
+            arg = arg.split("=").trim();
+            if (arg === "return") {
+                ret = arg[1] || "";
+            } else if (arg.length === 1) {
+                internal = arg[0];
+                external = arg[0];
+            } else if (arg.length === 2) {
+                internal = arg[0];
+                external = arg[1];
             }
-            for (i=0; i <n; i +=1 ) {
 
-            }
+        }
 
-            return code;
+        var start = "(function ( "+internal.join(", ")+" ) {";
+        var end = "\n} ( "+external.join(",")+" ) )";
+
+        if (typeof ret === "string") {
+            return start + code + "\n return "+ret+";" + end;
+        } else {
+            return start + "\n return "+ code + end;
+        }
     }
 
 
+### Testing
+
+Once we have this notion of wrapping defined, we can also do jshint on it and do tests. Perhaps if there is a code block of TEST with the following JS structure: [[msg, {outer scope before}, {outer scope after}, return value ]...]  The idea is that we set the tests up as an array of arrays where each of those arrays consists of a description, an initialization, and the final state plus return value. 
 
 
 ## Markdown
@@ -446,7 +466,6 @@ It currently has features for javascript files and markdown files. Planned will 
 
 
 Add in jsmin
-Add in immediate function expression, function wrapping
 
 
 ## NPM Package
