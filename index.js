@@ -97,20 +97,20 @@ module.exports = {
         for (i = 0; i < n; i += 1) {
           arg = args[i] || "";
           arg = arg.split("=").trim();
-          if (arg === "return") {
+          if (arg[0] === "return") {
             ret = arg[1] || "";
           } else if (arg.length === 1) {
-            internal = arg[0];
-            external = arg[0];
+            internal.push(arg[0]);
+            external.push(arg[0]);
           } else if (arg.length === 2) {
-            internal = arg[0];
-            external = arg[1];
+            internal.push(arg[0]);
+            external.push(arg[1]);
           }
 
         }
 
         var start = "(function ( " + internal.join(", ") + " ) {";
-        var end = "\n} ( " + external.join(",") + " ) )";
+        var end = "\n} ( " + external.join(",") + " ) );";
 
         if (typeof ret === "string") {
           return start + code + "\n return " + ret + ";" + end;
