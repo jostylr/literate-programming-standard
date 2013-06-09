@@ -4,7 +4,7 @@ This is a standard library for literate programming. Originally it was part of l
 
 This has the nice effect of forcing a standardized API for plugins and having an example for others to see. 
 
-VERSION literate-programming-standard | 0.2.1
+VERSION literate-programming-standard | 0.2.2
 
 ## Directory structure
 
@@ -143,7 +143,7 @@ The solution is the immediate function expressions. If we enclose a snippet in  
 
 The syntax will be  `ife` for the no parameter version and  `ife(v, w=hidethis)` to have parameters such as `function(v,w) {} (v, hidethis)`  That is, the `=` is used to rename an outer parameter into a different variable name while just a single variable name is assumed to have the outer variable blocked. 
 
-This will be designed so that the default will be enclosed code is a function. To change this, include `return = text` where text is what one would write after the return: `return text`
+This will is designed to detect whether it is a function or not (by first word being function) and then return the function or simply execute the code. To set the return value by piping,  include `return = text` where text is what one would write after the return: `return text`
 
 JS
 
@@ -170,10 +170,12 @@ JS
         }
 
         var start = "(function ( "+internal.join(", ")+" ) {";
-        var end = "\n} ( "+external.join(",")+" ) );";
+        var end = "\n} ( "+external.join(",")+" ) )";
 
         if (typeof ret === "string") {
             return start + code + "\n return "+ret+";" + end;
+        } else if (code.search(/^\s*function/) === -1) {
+            return start + code + end;
         } else {
             return start + "\n return "+ code + end;
         }
@@ -515,3 +517,7 @@ JSON
       },
       "keywords": ["literate programming"]
     }
+
+## Change Log
+
+0.2.1 --> 0.2.2 Changed behavior of ife so that it just runs code unless the first word is a function in which case it appends return in front. Behavior overrideable with return = "whatever"

@@ -110,10 +110,12 @@ module.exports = {
         }
 
         var start = "(function ( " + internal.join(", ") + " ) {";
-        var end = "\n} ( " + external.join(",") + " ) );";
+        var end = "\n} ( " + external.join(",") + " ) )";
 
         if (typeof ret === "string") {
           return start + code + "\n return " + ret + ";" + end;
+        } else if (code.search(/^\s*function/) === -1) {
+          return start + code + end;
         } else {
           return start + "\n return " + code + end;
         }
