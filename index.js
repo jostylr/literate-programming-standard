@@ -117,7 +117,7 @@ module.exports = {
         } else if (code.search(/^\s*function/) === -1) {
           return start + code + end;
         } else {
-          return start + "\n return " + code + end;
+          return start + "\n return " + code + ";" + end;
         }
       }
     });
