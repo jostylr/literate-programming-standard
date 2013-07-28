@@ -1,28 +1,22 @@
-# Standard plugins for literate programming
+# [literate-programming-standard](# "version: 0.2.4-pre")
 
 This is a standard library for literate programming. Originally it was part of literate programming, but to minimize the dependencies of the original, some of it was split off. 
 
 This has the nice effect of forcing a standardized API for plugins and having an example for others to see. 
 
-VERSION literate-programming-standard | 0.2.3
-
 ## Directory structure
 
-Main entry point.
+Here are the files that are produced by this document. 
 
-FILE "basic setup" index.js  | jshint |jstidy
-
-FILE "readme" README.md  | clean raw
-
-FILE "npm package" package.json | jshint |jstidy
-
-FILE "todo" TODO.md | clean raw
+* [index.js](#basic-setup  "save: | jshint |jstidy") This is the core plugin file
+* [README.md](#readme "save:| clean raw") The project readme file, of course.
+* [package.json](#npm-package  "save: | jshint |jstidy") The package file for npm publishing.
+* [TODO.md](#todo   "save:| clean raw") A todo list. A wish list, really.
 
 ## Basic setup
 
-Each type should be encapsulated into a function that takes in doc and does its work to modify. 
+Each type should be encapsulated into a function that takes in a doc and does its work to modify it. 
 
-JS
     /*global module, require*/
     module.exports = {
         'js' : _"JavaScript",
@@ -35,9 +29,8 @@ JS
 
 ## JavaScript
 
-Here we add in the commands `jshint`, `jstidy`, and `jsmin`. 
+Here we add in the commands `jshint`, `jstidy`, and someday `jsmin`. 
 
-JS
     
     function (doc) {
         var beautify = require('js-beautify').js_beautify;
@@ -60,7 +53,6 @@ JS
 
 Run the compiled code through JSBeautify 
 
-JS
 
     function (code, options) {
         options = options.join(",").trim();
@@ -80,7 +72,7 @@ Run the compiled code through JSHint and output the results to console.
 
 !! Need to think through options.
 
-JS main
+[main](# "js")
 
     function (code) {
         var doc = this.doc;
@@ -103,7 +95,7 @@ JS main
 
 Needs jshint installed: `npm install jshint`   
 
-JS jshint logging
+[jshint logging](# "js")
 
         block.jshint = {data:data, errors: [], implieds :[], unused :[]};
         var lines = code.split("\n");
@@ -145,7 +137,6 @@ The syntax will be  `ife` for the no parameter version and  `ife(v, w=hidethis)`
 
 This will is designed to detect whether it is a function or not (by first word being function) and then return the function or simply execute the code. To set the return value by piping,  include `return = text` where text is what one would write after the return: `return text`
 
-JS
 
     function (code, args) {
         var i, n = args.length;
@@ -191,7 +182,6 @@ Once we have this notion of wrapping defined, we can also do jshint on it and do
 
 We have here the tools needed to transform markdown documents into something else. 
 
-JS
     
     function (doc) {
         var marked = require('marked');
@@ -290,7 +280,7 @@ A macro that takes in a version number and outputs the google CDN link.
 
 We the CDN link for [MathJax](http://www.mathjax.org/).
     
-HTML main 
+[main](# "html")
 
     <script type="text/x-mathjax-config">
     _":MJ config"
@@ -299,7 +289,7 @@ HTML main
       src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
 
-JS MJ config | jshint 
+[MJ config](# "js |jshint")
     
     MathJax.Hub.Config({
         extensions: ["tex2jax.js"],
@@ -365,7 +355,7 @@ Encapsulate the code into an html element.
     }  
 
 
-JS Create attribute list
+[Create attribute list](# "js")
 
 We want to create an attribute list for html elements. The convention is that everything that does not have an equals sign is a class name. So we will string them together and throw them into the class, making sure each is a single word. The others we throw in as is. 
 
@@ -389,7 +379,7 @@ We want to create an attribute list for html elements. The convention is that ev
 
 This expects an object in this.state.obj to be a data structure that htmltable can make a table from. The first argument is the type of object. The rest are attributes, etc. for the table element
 
-JS 
+[](# "js")
 
     function (code, options) {
         var type = options.shift();
@@ -411,7 +401,7 @@ JS
         return ret; 
     }
 
-JS rows with header
+[rows with header](# "js")
 
     row = matrix[0]; 
     _":make row | substitute(td, th)"
@@ -421,14 +411,14 @@ JS rows with header
         _":make row"
     }
 
-JS body rows
+[body rows](# "js")
 
     for (i = 0; i < n; i += 1) {
         row = matrix[i];
         _":make row"
     }
 
-JS make row
+[make row](# "js")
 
     ret += "<tr><td>" + row.join("</td><td>") + "</td></tr>";
 
@@ -482,7 +472,6 @@ Add in jsmin
 
 The requisite npm package file. 
 
-JSON 
 
     {
       "name": "DOCNAME",
@@ -519,5 +508,7 @@ JSON
     }
 
 ## Change Log
+
+0.2.3 --> 0.2.4 Made lp syntax compatible with new syntax. The .js file is unaffected. 
 
 0.2.1 --> 0.2.2 Changed behavior of ife so that it just runs code unless the first word is a function in which case it appends return in front. Behavior overrideable with return = "whatever"
