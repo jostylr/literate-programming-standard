@@ -1,4 +1,4 @@
-# [literate-programming-standard](# "version: 0.2.4-pre")
+# [literate-programming-standard](# "version: 0.2.4")
 
 This is a standard library for literate programming. Originally it was part of literate programming, but to minimize the dependencies of the original, some of it was split off. 
 
