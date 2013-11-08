@@ -4,6 +4,10 @@ This is a standard library for literate programming. Originally it was part of l
 
 This has the nice effect of forcing a standardized API for plugins and having an example for others to see. 
 
+!! This will be now further split. I want to have lots of small plugins. Think grunt or something. This will still exist as something that installs all web development lit pro plugins. There will also be a family of javascript, markdown, html, css kinds of plugins with each being umbrellas for smaller plugins. 
+
+Need to have a very easy way to plugin in existing stuff. Think very small plugins, just a little glue. 
+
 ## Directory structure
 
 Here are the files that are produced by this document. 
