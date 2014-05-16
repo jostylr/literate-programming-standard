@@ -1,4 +1,4 @@
-# [literate-programming-standard](# "version: 0.2.4")
+# [literate-programming-standard](# "version: 0.2.5")
 
 This is a standard library for literate programming. Originally it was part of literate programming, but to minimize the dependencies of the original, some of it was split off. 
 
@@ -63,7 +63,7 @@ Run the compiled code through JSBeautify
         if (options) {
             options = JSON.parse(options);
         } else {
-            options = { indent_size: 2, "jslint_happy": true };
+            options = { "indent_size": 2, "jslint_happy": true };
         }
         return beautify(code, options);
     }
@@ -504,14 +504,16 @@ The requisite npm package file.
         "node": ">0.6"
       },
       "dependencies":{
-        "marked" : "~0.2.7",
-        "js-beautify": "~0.3.1",
-        "jshint" : "~0.9.1"
+        "js-beautify": "^1.5.1",
+        "jshint": "^2.5.1",
+        "marked": "^0.3.2"
       },
       "keywords": ["literate programming"]
     }
 
 ## Change Log
+
+0.2.5 Updated dependencies
 
 0.2.3 --> 0.2.4 Made lp syntax compatible with new syntax. The .js file is unaffected. 
 

@@ -16,7 +16,7 @@ module.exports = {
           options = JSON.parse(options);
         } else {
           options = {
-            indent_size: 2,
+            "indent_size": 2,
             "jslint_happy": true
           };
         }
@@ -255,30 +255,32 @@ module.exports = {
 
     doc.addConstants({
       "mathjax": ["<script type=\"text/x-mathjax-config\">",
-        "MathJax.Hub.Config({",
-        "    extensions: [\"tex2jax.js\"],",
-        "    jax: [\"input/TeX\", \"output/HTML-CSS\"],",
-        "    tex2jax: {",
-        "      inlineMath: [ ['$','$'], [\"\\\\(\",\"\\\\)\"] ],",
-        "      displayMath: [ ['$$','$$'], [\"\\\\[\",\"\\\\]\"] ],",
-        "      processEscapes: true",
-        "    },",
-        "    \"HTML-CSS\": { availableFonts: [\"TeX\"] }, ",
-        "    TeX: {",
-        "    Macros: {",
-        "      R: '{\\\\mathbb{R}}',",
-        "      C: '{\\\\mathbb{C}}'    }",
-        "    }",
-        "});",
-        "</script>",
-        "<script type=\"text/javascript\"",
-        "  src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">",
-        "</script>"].join("\n")
+          "MathJax.Hub.Config({",
+          "    extensions: [\"tex2jax.js\"],",
+          "    jax: [\"input/TeX\", \"output/HTML-CSS\"],",
+          "    tex2jax: {",
+          "      inlineMath: [ ['$','$'], [\"\\\\(\",\"\\\\)\"] ],",
+          "      displayMath: [ ['$$','$$'], [\"\\\\[\",\"\\\\]\"] ],",
+          "      processEscapes: true",
+          "    },",
+          "    \"HTML-CSS\": { availableFonts: [\"TeX\"] }, ",
+          "    TeX: {",
+          "    Macros: {",
+          "      R: '{\\\\mathbb{R}}',",
+          "      C: '{\\\\mathbb{C}}'    }",
+          "    }",
+          "});",
+          "</script>",
+          "<script type=\"text/javascript\"",
+          "  src=\"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML\">",
+          "</script>"
+      ].join("\n")
     });
 
     doc.addMacros({
       "jquery": function (v) {
-        return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' + (v || '1.9.0') + '/jquery.min.js"></script>';
+        return '<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/' +
+          (v || '1.9.0') + '/jquery.min.js"></script>';
       }
     });
 
